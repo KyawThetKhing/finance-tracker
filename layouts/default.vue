@@ -4,6 +4,7 @@
     <main class="my-10">
       <slot />
     </main>
+    
   </div>
 </template>
 

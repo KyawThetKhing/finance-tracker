@@ -2,6 +2,28 @@
 import { transactionViewOptions } from '@/constants';
 
 const selectedView = ref(transactionViewOptions[1]);
+const transactions = ref([]);
+
+const supabase = useSupabaseClient();
+const { data, pending } = await useAsyncData('transactions', async () => {
+  const { data, error } = await supabase.from('transactions').select();
+  if (error) return [];
+  return data;
+});
+
+transactions.value = data.value;
+
+const transactionsGroupedByDate = computed(() => {
+  const groupedByDate = transactions.value.reduce((acc, transaction) => {
+    let date = new Date(transaction.created_at).toISOString().split('T')[0];
+    if (!acc[date]) {
+      acc[date] = [];
+    }
+    acc[date].push(transaction);
+    return acc;
+  }, {});
+  return groupedByDate;
+});
 </script>
 <template>
   <section class="flex items-center justify-between mb-10">
@@ -39,10 +61,17 @@ const selectedView = ref(transactionViewOptions[1]);
     />
   </section>
   <section>
-    <Transaction />
-    <Transaction />
-    <Transaction />
-    <Transaction />
+    <div
+      v-for="(transactionOnDay, date) in transactionsGroupedByDate"
+      :key="date"
+    >
+      <DailyTransactionSummary :date="date" :transactions="transactionOnDay" />
+      <Transaction
+        v-for="transaction in transactionOnDay"
+        :key="transaction.id"
+        :transaction="transaction"
+      />
+    </div>
   </section>
 </template>
 
