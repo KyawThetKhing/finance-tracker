@@ -2,6 +2,7 @@
 const props = defineProps({
   transaction: Object,
 });
+const emit = defineEmits(['deleted']);
 
 const supabase = useSupabaseClient();
 
@@ -31,6 +32,7 @@ const deleteTransaction = async () => {
         icon: 'i-heroicons-check-circle',
         color: 'green',
       });
+      emit('deleted', props.transaction.id);
     });
   } catch (error) {
     toast.add({
