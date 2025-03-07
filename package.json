@@ -11,7 +11,8 @@
     "lint": "eslint --ext .js,.vue src/",
     "lint:fix": "eslint --ext .js,.vue src/ --fix",
     "prettier": "prettier --write .",
-    "prettier:check": "prettier --check ."
+    "prettier:check": "prettier --check .",
+    "seed": "node seed.mjs"
   },
   "dependencies": {
     "@nuxt/ui": "2.21.0",
@@ -21,6 +22,7 @@
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.5.1",
     "eslint": "^9.21.0",
     "eslint-config-prettier": "^10.0.2",
     "eslint-plugin-prettier": "^5.2.3",
