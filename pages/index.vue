@@ -103,7 +103,7 @@ const transactionsGroupedByDate = computed(() => {
       </div>
     </div>
     <div>
-      <TransactionModel v-model="isOpen" />
+      <TransactionModel v-model="isOpen" @saved="refreshTransactions()" />
       <UButton
         icon="i-heroicons-plus-circle"
         color="white"

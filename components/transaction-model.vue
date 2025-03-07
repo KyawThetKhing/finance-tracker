@@ -2,6 +2,10 @@
 import { z } from 'zod';
 import { categories, types } from '@/constants';
 const isOpen = defineModel();
+const emit = defineEmits(['saved']);
+const isLoading = ref(false);
+const supabase = useSupabaseClient();
+const toast = useToast();
 
 const state = ref({
   type: undefined,
@@ -57,10 +61,37 @@ const schema = z.intersection(
 
 const save = async () => {
   if (form.value.errors.length > 0) return;
+  isLoading.value = true;
+  try {
+    const { error } = await supabase
+      .from('transactions')
+      .upsert({ ...state.value });
+
+    if (!error) {
+      toast.add({
+        title: 'Transaction saved successfully',
+        icon: 'i-heroicons-check-circle',
+        color: 'green',
+      });
+      isOpen.value = false;
+      emit('saved');
+      return;
+    }
+    throw error;
+  } catch (e) {
+    toast.add({
+      title: 'Transaction not saved',
+      description: e.message,
+      icon: 'i-heroicons-exclamation-circle',
+      color: 'red',
+    });
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 watch(isOpen, (newVal) => {
-  if (newVal) resetForm();
+  if (!newVal) resetForm();
 });
 </script>
 <template>
@@ -122,7 +153,13 @@ watch(isOpen, (newVal) => {
           />
         </UFormGroup>
 
-        <UButton type="submit" color="black" variant="solid" label="Save" />
+        <UButton
+          type="submit"
+          color="black"
+          variant="solid"
+          label="Save"
+          :loading="isLoading"
+        />
       </UForm>
     </UCard>
   </UModal>
