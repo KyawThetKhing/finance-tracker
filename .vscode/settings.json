@@ -31,7 +31,7 @@
   "editor.wordWrap": "wordWrapColumn",
   "editor.renderControlCharacters": false,
   "editor.accessibilitySupport": "off",
-  "workbench.colorTheme": "Tokyo Night",
+  "workbench.colorTheme": "Material Theme",
   "workbench.activityBar.location": "default",
   "workbench.hover.delay": 500,
   "workbench.sash.hoverDelay": 500,
