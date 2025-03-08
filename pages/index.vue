@@ -3,6 +3,7 @@ import { transactionViewOptions } from '@/constants';
 
 const selectedView = ref(transactionViewOptions[1]);
 const isOpen = ref(false);
+const { current, previous } = useSelectedTimePeriod(selectedView);
 
 const {
   refresh,
@@ -14,9 +15,17 @@ const {
     expenseTotal,
     grouped: { byDate },
   },
-} = useFetchTransactions();
+} = useFetchTransactions(current);
 
-await refresh();
+const {
+  refresh: refreshPrevious,
+  transactions: {
+    incomeTotal: previousIncomeTotal,
+    expenseTotal: previousExpenseTotal,
+  },
+} = useFetchTransactions(previous);
+
+// await Promise.all([refresh(), refreshPrevious()]);
 </script>
 <template>
   <section class="flex items-center justify-between mb-10">
@@ -31,13 +40,13 @@ await refresh();
     <Trend
       title="Income"
       :amount="incomeTotal"
-      :previousAmount="800"
+      :previousAmount="previousIncomeTotal"
       :loading="pending"
     />
     <Trend
       title="Expense"
       :amount="expenseTotal"
-      :previousAmount="100"
+      :previousAmount="previousExpenseTotal"
       :loading="pending"
     />
     <Trend
