@@ -17,6 +17,8 @@ const {
   },
 } = useFetchTransactions(current);
 
+console.log('Income/Expense Total', incomeTotal.value, expenseTotal.value);
+// await refresh();
 const {
   refresh: refreshPrevious,
   transactions: {
@@ -24,8 +26,13 @@ const {
     expenseTotal: previousExpenseTotal,
   },
 } = useFetchTransactions(previous);
-
-// await Promise.all([refresh(), refreshPrevious()]);
+console.log(
+  'Previous Income/Expense Total',
+  previousIncomeTotal.value,
+  previousExpenseTotal.value
+);
+// await refreshPrevious();
+await Promise.all([refresh(), refreshPrevious()]);
 </script>
 <template>
   <section class="flex items-center justify-between mb-10">
@@ -93,7 +100,7 @@ const {
     </div>
   </section>
   <section v-else>
-    <USkeleton class="h-8 w-full mb-2" v-for="i in 5" :key="n" />
+    <USkeleton class="h-8 w-full mb-2" v-for="i in 5" :key="i" />
   </section>
 </template>
 

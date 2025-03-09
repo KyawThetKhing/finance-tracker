@@ -28,7 +28,7 @@ export const useFetchTransactions = (period) => {
   const refresh = async () => {
     transactions.value = await fetchTransactions();
   };
-  watch(period, async () => await refresh(), { immediate: true });
+  watch(period, async () => await refresh());
 
   const income = computed(() =>
     transactions.value.filter((t) => t.type === 'Income')
