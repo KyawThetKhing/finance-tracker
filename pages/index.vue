@@ -17,7 +17,6 @@ const {
   },
 } = useFetchTransactions(current);
 
-console.log('Income/Expense Total', incomeTotal.value, expenseTotal.value);
 // await refresh();
 const {
   refresh: refreshPrevious,
@@ -26,11 +25,6 @@ const {
     expenseTotal: previousExpenseTotal,
   },
 } = useFetchTransactions(previous);
-console.log(
-  'Previous Income/Expense Total',
-  previousIncomeTotal.value,
-  previousExpenseTotal.value
-);
 // await refreshPrevious();
 await Promise.all([refresh(), refreshPrevious()]);
 </script>
