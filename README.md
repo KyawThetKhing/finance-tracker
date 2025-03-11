@@ -4,6 +4,8 @@
 
 ## move useRedirectIfAuthenicated to middleware
 
+## update header to control for no login state
+
 # Nuxt Minimal Starter
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
