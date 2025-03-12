@@ -22,7 +22,7 @@ const deleteTransaction = async () => {
   isLoading.value = true;
 
   try {
-    await useAsyncData('', async () => {
+    await useAsyncData('deleteTransaction', async () => {
       await supabase
         .from('transactions')
         .delete()
