@@ -41,7 +41,7 @@
   "workbench.preferredDarkColorTheme": "Tokyo Night",
   "workbench.layoutControl.enabled": true,
   "workbench.layoutControl.type": "both",
-  "workbench.editor.showTabs": "single",
+  "workbench.editor.showTabs": "default",
   "editor.scrollbar.scrollByPage": true,
   "workbench.panel.defaultLocation": "right",
   "zenMode.showTabs": "single",
