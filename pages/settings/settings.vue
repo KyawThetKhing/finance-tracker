@@ -18,7 +18,6 @@ const schema = z.object({
 
 const saveSettings = async () => {
   pending.value = true;
-  console.log('State', state.value);
   try {
     const { error } = await supabase.auth.updateUser({
       data: {
