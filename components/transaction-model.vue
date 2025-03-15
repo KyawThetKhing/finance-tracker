@@ -7,13 +7,30 @@ const isLoading = ref(false);
 const supabase = useSupabaseClient();
 const { toastError, toastSuccess } = useAppToast();
 
-const state = ref({
-  type: undefined,
-  amount: 0,
-  created_at: undefined,
-  description: undefined,
-  category: undefined,
+const props = defineProps({
+  transaction: {
+    type: Object,
+    required: false,
+  },
 });
+const isEditing = computed(() => !!props.transaction);
+const state = ref(
+  isEditing.value
+    ? {
+        type: props.transaction.type,
+        amount: props.transaction.amount,
+        created_at: props.transaction.created_at.split('T')[0],
+        description: props.transaction.description,
+        category: props.transaction.category,
+      }
+    : {
+        type: undefined,
+        amount: 0,
+        created_at: undefined,
+        description: undefined,
+        category: undefined,
+      }
+);
 
 // const state = ref({
 //   ...initialState,
@@ -65,7 +82,7 @@ const save = async () => {
   try {
     const { error } = await supabase
       .from('transactions')
-      .upsert({ ...state.value });
+      .upsert({ ...state.value, id: props.transaction?.id });
 
     if (!error) {
       toastSuccess({
@@ -93,7 +110,9 @@ watch(isOpen, (newVal) => {
 <template>
   <UModal v-model="isOpen">
     <UCard>
-      <template #header> Add Transaction </template>
+      <template #header>
+        {{ isEditing ? 'Edit Transaction' : 'Add Transaction' }}
+      </template>
       <UForm :state="state" :schema="schema" ref="form" @submit.prevent="save">
         <UFormGroup
           required="true"
@@ -104,6 +123,7 @@ watch(isOpen, (newVal) => {
           <USelect
             placeholder="Transaction Type"
             :options="types"
+            :disabled="isEditing"
             v-model="state.type"
           />
         </UFormGroup>

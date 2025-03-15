@@ -93,6 +93,7 @@ await Promise.all([refresh(), refreshPrevious()]);
         :key="transaction.id"
         :transaction="transaction"
         @deleted="refresh()"
+        @edited="refresh()"
       />
     </div>
   </section>
