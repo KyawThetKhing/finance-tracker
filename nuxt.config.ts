@@ -6,7 +6,15 @@ export default defineNuxtConfig({
   // future: {
   //   compatibilityVersion: 4,
   // },
+  imports: {
+    dirs: ['composables/api'],
+  },
   supabase: {
     redirect: true,
+  },
+  runtimeConfig: {
+    public: {
+      redirectDomain: process.env.REDIRECT_DOMAIN,
+    },
   },
 });

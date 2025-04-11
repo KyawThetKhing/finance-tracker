@@ -101,5 +101,3 @@ await Promise.all([refresh(), refreshPrevious()]);
     <USkeleton class="h-8 w-full mb-2" v-for="i in 5" :key="i" />
   </section>
 </template>
-
-<style scoped></style>

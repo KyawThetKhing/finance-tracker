@@ -1,35 +1,12 @@
 <script setup>
-const success = ref(false);
 const email = ref('');
-const pending = ref(false);
-const { toastError } = useAppToast();
-const supabase = useSupabaseClient();
+const { signInWithOTP, pending, success } = useAuth();
 
-const handleLogin = async () => {
-  pending.value = true;
-  success.value = true;
-
-  try {
-    const { error } = await supabase.auth.signInWithOtp({
-      email: email.value,
-      options: {
-        emailRedirectTo: 'http://localhost:3000/confirm',
-      },
-    });
-
-    if (error) {
-      toastError({
-        title: 'Error authenicating',
-        description: error.message,
-      });
-    } else {
-      pending.value = false;
-    }
-  } finally {
-    pending.value = false;
-  }
+const handleLogin = () => {
+  signInWithOTP(email);
 };
 </script>
+k
 <template>
   <UCard v-if="!success">
     <template #header> Sign-in to Finance Tracker </template>
