@@ -68,29 +68,6 @@ const schema = z.intersection(
 
 const save = async () => {
   if (form.value.errors.length > 0) return;
-  isLoading.value = true;
-  try {
-    const { error } = await supabase
-      .from('transactions')
-      .upsert({ ...state.value, id: props.transaction?.id });
-
-    if (!error) {
-      toastSuccess({
-        title: 'Transaction saved successfully',
-      });
-      isOpen.value = false;
-      emit('saved');
-      return;
-    }
-    throw error;
-  } catch (e) {
-    toastError({
-      title: 'Transaction not saved',
-      description: e.message,
-    });
-  } finally {
-    isLoading.value = false;
-  }
 };
 
 watch(isOpen, (newVal) => {

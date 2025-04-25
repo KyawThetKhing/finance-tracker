@@ -1,5 +1,5 @@
 <script setup>
-const supabase = useSupabaseClient();
+const { signOut } = useAuth();
 const user = useSupabaseUser();
 const { url } = useAvatarUrl();
 const items = [
@@ -20,7 +20,7 @@ const items = [
       label: 'Sign out',
       icon: 'i-heroicons-arrow-left-on-rectangle',
       click: async () => {
-        await supabase.auth.signOut();
+        await signOut();
         return navigateTo('/login');
       },
     },

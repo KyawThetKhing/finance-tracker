@@ -1,6 +1,9 @@
 <script setup>
 import { z } from 'zod';
 
+definePageMeta({
+  middleware: 'auth',
+});
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 

@@ -2,6 +2,9 @@
 import { z } from 'zod';
 import { transactionViewOptions } from '@/constants';
 
+definePageMeta({
+  middleware: 'auth',
+});
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 

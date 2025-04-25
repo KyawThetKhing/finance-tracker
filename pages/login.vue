@@ -1,40 +1,24 @@
 <script setup>
-const email = ref('');
-const { signInWithOTP, pending, success } = useAuth();
-
-const handleLogin = () => {
-  signInWithOTP(email);
-};
+const items = ref([
+  {
+    label: 'Sign-in with username/password',
+    slot: 'username-password',
+  },
+  {
+    label: 'Sign-in with email',
+    slot: 'email',
+  },
+]);
 </script>
-k
-<template>
-  <UCard v-if="!success">
-    <template #header> Sign-in to Finance Tracker </template>
-    <form @submit.prevent="handleLogin">
-      <UFormGroup label="Email" name="email" class="mb-4" :required="true">
-        <UInput type="email" placeholder="Email" required="" v-model="email" />
-      </UFormGroup>
 
-      <UButton
-        type="submit"
-        variant="solid"
-        color="black"
-        :loading="pending"
-        :disabled="pending"
-      >
-        Sign-in
-      </UButton>
-    </form>
-  </UCard>
-  <UCard v-else>
-    <template #header> Email has been sent </template>
-    <div class="text-center">
-      <p class="mb-4">
-        We have sent an email to <strong>{{ email }}</strong> with a link to
-        sign-in
-      </p>
-      <p><strong>Important:</strong> The link will be expir in 5 minutes</p>
-    </div>
-  </UCard>
+<template>
+  <UTabs :items="items" class="w-[50%] mx-auto" variant="pill">
+    <template #username-password="{ item }">
+      <UsernamePasswordLogin />
+    </template>
+    <template #email="{ item }">
+      <EmailLogin />
+    </template>
+  </UTabs>
 </template>
 <style lang="scss" scoped></style>

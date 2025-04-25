@@ -1,6 +1,9 @@
 <script setup>
 import { transactionViewOptions } from '@/constants';
 
+definePageMeta({
+  middleware: 'auth',
+});
 const user = useSupabaseUser();
 const selectedView = ref(
   user.value.user_metadata?.transaction_view || transactionViewOptions[1]
@@ -18,7 +21,7 @@ const {
     expenseTotal,
     grouped: { byDate },
   },
-} = useFetchTransactions(current);
+} = useTransactions(current);
 
 // await refresh();
 const {
@@ -27,7 +30,7 @@ const {
     incomeTotal: previousIncomeTotal,
     expenseTotal: previousExpenseTotal,
   },
-} = useFetchTransactions(previous);
+} = useTransactions(previous);
 // await refreshPrevious();
 await Promise.all([refresh(), refreshPrevious()]);
 </script>

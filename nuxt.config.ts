@@ -10,11 +10,12 @@ export default defineNuxtConfig({
     dirs: ['composables/api'],
   },
   supabase: {
-    redirect: true,
+    redirect: false,
   },
   runtimeConfig: {
     public: {
       redirectDomain: process.env.REDIRECT_DOMAIN,
+      redirectDomainAfterSignUp: process.env.REDIRECT_DOMAIN_AFTER_SIGNUP,
     },
   },
 });
