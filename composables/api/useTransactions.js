@@ -1,7 +1,9 @@
 export const useTransactions = (period) => {
+  console.log('🚀 ~ useTransactions.js:2 ~ useTransactions ~ period:', period);
   const supabase = useSupabaseClient();
   const transactions = ref([]);
   const pending = ref(false);
+  const { toastError, toastSuccess } = useAppToast();
 
   const fetchTransactions = async () => {
     pending.value = true;
@@ -16,9 +18,16 @@ export const useTransactions = (period) => {
             .lte('created_at', period.value.to.toISOString())
             .order('created_at', { ascending: false });
           if (error) return [];
+          console.log('🚀 ~ useTransactions.js:15 ~ error:', error);
+
           return data;
         }
       );
+      console.log(
+        '🚀 ~ useTransactions.js:11 ~ fetchTransactions ~ data:',
+        data.value
+      );
+
       return data.value;
     } finally {
       pending.value = false;
@@ -26,6 +35,7 @@ export const useTransactions = (period) => {
   };
 
   const refresh = async () => {
+    console.log('🚀 ~ useTransactions.js:30 ~ refresh ~ period:');
     transactions.value = await fetchTransactions();
   };
   watch(period, async () => await refresh());
@@ -65,19 +75,18 @@ export const useTransactions = (period) => {
     return groupedByDate;
   });
 
-  const save = async () => {
+  const saveTransaction = async (state, id) => {
+    console.log('🚀 ~ useTransactions.js:69 ~ saveTransaction ~ state:', state);
     pending.value = true;
     try {
       const { error } = await supabase
         .from('transactions')
-        .upsert({ ...state.value, id: props.transaction?.id });
+        .upsert({ ...state.value, id });
 
       if (!error) {
         toastSuccess({
           title: 'Transaction saved successfully',
         });
-        isOpen.value = false;
-        emit('saved');
         return;
       }
       throw error;
@@ -106,6 +115,6 @@ export const useTransactions = (period) => {
     },
     refresh,
     pending,
-    save,
+    saveTransaction,
   };
 };

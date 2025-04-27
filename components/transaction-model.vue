@@ -4,8 +4,7 @@ import { categories, types } from '@/constants';
 const isOpen = defineModel();
 const emit = defineEmits(['saved']);
 const isLoading = ref(false);
-const supabase = useSupabaseClient();
-const { toastError, toastSuccess } = useAppToast();
+const { saveTransaction } = useTransactions();
 
 const props = defineProps({
   transaction: {
@@ -68,6 +67,9 @@ const schema = z.intersection(
 
 const save = async () => {
   if (form.value.errors.length > 0) return;
+  saveTransaction(state, props.transaction.id);
+  isOpen.value = false;
+  emit('saved');
 };
 
 watch(isOpen, (newVal) => {

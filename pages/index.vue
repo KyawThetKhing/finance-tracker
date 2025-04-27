@@ -8,8 +8,10 @@ const user = useSupabaseUser();
 const selectedView = ref(
   user.value.user_metadata?.transaction_view || transactionViewOptions[1]
 );
+console.log('🚀 ~ index.vue:11 ~ selectedView:', selectedView);
 const isOpen = ref(false);
 const { current, previous } = useSelectedTimePeriod(selectedView);
+console.log('🚀 ~ index.vue:14 ~ current, previous:', current, previous);
 
 const {
   refresh,
@@ -23,7 +25,6 @@ const {
   },
 } = useTransactions(current);
 
-// await refresh();
 const {
   refresh: refreshPrevious,
   transactions: {
@@ -31,7 +32,7 @@ const {
     expenseTotal: previousExpenseTotal,
   },
 } = useTransactions(previous);
-// await refreshPrevious();
+// await Promise.all([refresh()]);
 await Promise.all([refresh(), refreshPrevious()]);
 </script>
 <template>

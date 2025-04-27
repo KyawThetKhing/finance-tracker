@@ -11,6 +11,10 @@ import {
 } from 'date-fns';
 
 export const useSelectedTimePeriod = (period) => {
+  console.log(
+    '🚀 ~ useSelectedTimePeriod.js:14 ~ useSelectedTimePeriod ~ period:',
+    period.value
+  );
   const current = computed(() => {
     switch (period.value) {
       case 'Yearly':
@@ -64,6 +68,10 @@ export const useSelectedTimePeriod = (period) => {
         };
     }
   });
-
+  console.log(
+    '🚀 ~ useSelectedTimePeriod.js:73 ~ useSelectedTimePeriod ~ current, previous:',
+    current,
+    previous
+  );
   return { current, previous };
 };
